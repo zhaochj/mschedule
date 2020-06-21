@@ -13,14 +13,13 @@ class Store:
     def agent_handler(self, payload: dict):
         self.agents[payload['id']] = {
             'hostname': payload['hostname'],
-            'ip': payload['ip'],
-            'busy': payload['busy']  # agent目前是否繁忙
+            'ip': payload['ip']
         }
 
     def add_task(self, task: dict):  # 从前端界面增加任务到相应的agent
         t = Task(**task)
-        self.tasks[t.id] = t  # t是一个实例对象，使用实例属性存放任务
-        return t.id  # 返回给前端任务的id
+        self.tasks[t.task_id] = t  # t是一个实例对象，使用实例属性存放任务
+        return t.task_id  # 返回给前端任务的id
 
     def iter_tasks(self, states=None):
         if states is None:
@@ -36,6 +35,11 @@ class Store:
 
     def get_task_by_task_id(self, task_id):
         return self.tasks[task_id]
+
+    def get_agents(self):
+        # 返回agent列表
+        return self.agents
+
 
 
 
