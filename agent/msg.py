@@ -34,7 +34,7 @@ class Message:
                     if ip.version != 4 or ip.is_loopback or ip.is_link_local or ip.is_multicast or ip.is_reserved:
                         # 非ipv4地址，回环地址，169.254开头地址，多播地址，保留地址，全部跨过
                         continue
-                    ips.append(ip)
+                    ips.append(str(ip))
         return ips
 
     def reg(self):
@@ -56,5 +56,17 @@ class Message:
                 "id": self.id,
                 "hostname": socket.gethostname(),
                 "ip": str(self._get_ips)
+            }
+        }
+
+    def result(self, task_id, code, output):
+        """脚本执行完成"""
+        return {
+            "type": "result",
+            "payload": {
+                "task_id": task_id,
+                "agent_id": self.id,
+                "code": code,
+                "output": output
             }
         }

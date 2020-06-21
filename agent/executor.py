@@ -5,12 +5,10 @@ class Executor:
     """
     脚本执行类
     """
-    def __init__(self, script):
-        self.script = script
-
-    def run(self):
-        p = Popen(self.script, stdout=PIPE, shell=True)
-        p.wait()
+    @staticmethod
+    def run(self, script, timeout):
+        p = Popen(script, stdout=PIPE, shell=True)
+        p.wait(timeout)
         text = p.stdout.read()
         return p.returncode, text
 
