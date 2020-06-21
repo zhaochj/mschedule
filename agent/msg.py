@@ -12,8 +12,6 @@ logger = get_logger(__name__, '{}/{}.log'.format(LOG_DIR, __name__))
 
 class Message:
     def __init__(self):
-        self.busy = False
-
         if os.path.exists(UUID_FILE_PATH):
             with open(UUID_FILE_PATH) as f:
                 self.id = f.readline().strip()
@@ -57,7 +55,18 @@ class Message:
             "payload": {
                 "id": self.id,
                 "hostname": socket.gethostname(),
-                "ip": str(self._get_ips),
-                "busy": self.busy
+                "ip": str(self._get_ips)
+            }
+        }
+
+    def result(self, task_id, code, output):
+        """脚本执行完成"""
+        return {
+            "type": "result",
+            "payload": {
+                "task_id": task_id,
+                "agent_id": self.id,
+                "code": code,
+                "output": output
             }
         }
