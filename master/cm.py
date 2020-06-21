@@ -2,6 +2,7 @@ from .store import Store
 from .utils import get_logger
 from .config import LOG_DIR
 from .state import *
+import uuid
 
 
 logger = get_logger(__name__, '{}/{}.log'.format(LOG_DIR, __name__))
@@ -56,10 +57,18 @@ class ConnectManager:
             task.state = RUNNING  # 修改任务状态
             target['state'] = RUNNING  # 修改当前agent获取到任务后的状态
             return {
-                'task_id': task.id,
+                'task_id': task.task_id,
                 'script': task.script,
                 'timeout': task.timeout
             }
+
+    def get_agents(self):
+        # 返回所有已注册的agent
+        return self.store.get_agents()
+
+    def add_task(self, task):
+        task['task_id'] = uuid.uuid4().hex
+        return self.store.add_task(task)
 
 
 

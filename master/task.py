@@ -3,8 +3,8 @@ import uuid
 
 
 class Task:
-    def __init__(self, script, targets, timeout=0, parallel=1, fail_rate=0, fail_count=-1):
-        self.id = uuid.uuid4().hex
+    def __init__(self, task_id, script, targets, timeout=0, parallel=1, fail_rate=0, fail_count=-1):
+        self.task_id = task_id
         self.script = script
         self.timeout = timeout
         self.parallel = parallel

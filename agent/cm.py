@@ -33,6 +33,7 @@ class ConnectManager:
             # 领任务, 执行任务，返回结果
             if self.state == WAITING:
                 self._get_task_and_execute(self.message.id)
+                # 执行脚本也在这个循环中运行，如果脚本运行时间较长，那会影响心跳发送，可考虑放到一个线程中运行，把
 
     def _get_task_and_execute(self, agent_id):
         task = self.client.get_task(agent_id)
